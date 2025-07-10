@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>카드 뒤집기 게임</title>
+  <style>
+    #cards{
+      display: grid;
+      grid-template-columns: repeat(6, 60px);
+      gap:10px;
+    }
+    #cards button{
+      width: 60px; height: 70px;
+      font-size: 28px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>같은 그림을 찾아보아요</h1>
+  <div id="cards"></div>
+
+  <script>
+    const emojis = ["😼", "🐺", "😼", "🐺", "🐼", "🐸", "🐼", "🐸", "🦄", "🐶", "🦄", "🐶"]
+    const shuffled = emojis.sort(() => Math.random() - 0.5);
+    let selected = [];
+    const matched = new Set();
+
+    shuffled.forEach((emoji) => {
+      const btn = document.createElement("button");
+      btn.textContent = "❓";
+      btn.disabled - false;
+
+      btn.onclick = () => {
+        btn.textContent = emoji;
+        selected.push({emoji:emoji, btn:btn});
+
+        if(selected.length === 2){
+          const [aa, bb] = selected;
+          if(aa.emoji === bb.emoji){
+            matched.add(aa.btn);
+            matched.add(bb.btn);
+            selected = [];
+          }else{
+            setTimeout(() => {
+              aa.btn.textContent = "❓";
+              bb.btn.textContent = "❓";
+              selected = [];
+            }, 500);
+          }
+        }
+      }
+      document.getElementById("cards").appendChild(btn);
+    });
+  </script>
+</body>
+</html>
